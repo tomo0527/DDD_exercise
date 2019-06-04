@@ -11,43 +11,43 @@ public class VendingMachine {
     /**
      * ジュースを購入する.
      *
-     * @param i           投入金額. 100円と500円のみ受け付ける.
+     * @param payment           投入金額. 100円と500円のみ受け付ける.
      * @param kindOfDrink ジュースの種類.
      *                    コーラ({@code Juice.COKE}),ダイエットコーラ({@code Juice.DIET_COKE},お茶({@code Juice.TEA})が指定できる.
      * @return 指定したジュース. 在庫不足や釣り銭不足で買えなかった場合は {@code null} が返される.
      */
-    public Drink buy(int i, int kindOfDrink) {
+    public Drink buy(int payment, int kindOfDrink) {
         // 100円と500円だけ受け付ける
-        if ((i != 100) && (i != 500)) {
-            charge += i;
+        if ((payment != 100) && (payment != 500)) {
+            charge += payment;
             return null;
         }
 
         if ((kindOfDrink == Drink.COKE) && (quantityOfCoke == 0)) {
-            charge += i;
+            charge += payment;
             return null;
         } else if ((kindOfDrink == Drink.DIET_COKE) && (quantityOfDietCoke == 0)) {
-            charge += i;
+            charge += payment;
             return null;
         } else if ((kindOfDrink == Drink.TEA) && (quantityOfTea == 0)) {
-            charge += i;
+            charge += payment;
             return null;
         }
 
         // 釣り銭不足
-        if (i == 500 && numberOf100Yen < 4) {
-            charge += i;
+        if (payment == 500 && numberOf100Yen < 4) {
+            charge += payment;
             return null;
         }
 
-        if (i == 100) {
+        if (payment == 100) {
             // 100円玉を釣り銭に使える
             numberOf100Yen++;
-        } else if (i == 500) {
+        } else if (payment == 500) {
             // 400円のお釣り
-            charge += (i - 100);
+            charge += (payment - 100);
             // 100円玉を釣り銭に使える
-            numberOf100Yen -= (i - 100) / 100;
+            numberOf100Yen -= (payment - 100) / 100;
         }
 
         if (kindOfDrink == Drink.COKE) {
